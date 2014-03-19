@@ -2,8 +2,6 @@ RepliconWrench
 ==============
 Software that leverages [Replicon's](https://github.com/RepliconBioinfo/Replicon) power to predict replication timing on a large scale.
 
-# Wiki pages to get you started
-
 ## RepliconWrench
 A very thorough description of features that are available are described [here](https://github.com/RepliconBioinfo/RepliconWrench/wiki/Replicon-Accessories)
 
