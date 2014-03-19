@@ -4,5 +4,10 @@ Software that leverages [Replicon's](https://github.com/RepliconBioinfo/Replicon
 
 # Wiki pages to get you started
 
+## RepliconWrench
+A very thorough description of features that are available are described [here](https://github.com/RepliconBioinfo/RepliconWrench/wiki/Replicon-Accessories)
+
 ## IPLS
-Description of the Initiation Probability Landsacpe file format is provided [here](IPLS)
+Description of the Initiation Probability Landsacpe file format is provided [here](https://github.com/RepliconBioinfo/RepliconWrench/wiki/IPLS)
+
+
