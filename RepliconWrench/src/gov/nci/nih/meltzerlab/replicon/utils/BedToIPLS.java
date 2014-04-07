@@ -62,6 +62,7 @@ public class BedToIPLS
 		options.addOption("v", "value", true, "value column (1-based) default 4");
 		options.addOption("o", "out-dir", true, "output directory");
 		options.addOption("b", "bin-width", true, "specify bin width (default=500)");
+		options.addOption("g", "ignore-score", false, "ignore the score column (P for all sites will be set to 1.0)");
 
 
 		CommandLineParser parser = new BasicParser();
@@ -76,13 +77,13 @@ public class BedToIPLS
 		{
 			Utils.printUsageAndExit("BedToIPLS", options);
 		}
-		
-		if (commandLine.hasOption('n'))
+
+		if (commandLine.hasOption('g'))
 		{
 			NULLIFY_SCORE = true;
 		}
 
-		
+
 		if (commandLine.hasOption('b'))
 		{
 			BIN_WIDTH = Integer.parseInt(commandLine.getOptionValue('b'));
@@ -153,24 +154,26 @@ public class BedToIPLS
 				columns = StringUtils.split(line);
 				if (columns[CHROMOSOME_COLUMN].equals(chromosome))
 				{
-					range = new ScoredGenomicRange(columns[CHROMOSOME_COLUMN], 
-							Integer.parseInt(columns[START_COLUMN]), 
-							Integer.parseInt(columns[END_COLUMN]), 
-							Double.parseDouble(columns[VALUE_COLUMN]));
+					if (NULLIFY_SCORE)
+					{
+						range = new ScoredGenomicRange(columns[CHROMOSOME_COLUMN], 
+								Integer.parseInt(columns[START_COLUMN]), 
+								Integer.parseInt(columns[END_COLUMN]), 
+								Double.MAX_VALUE);
+					}
+					else
+					{
+						range = new ScoredGenomicRange(columns[CHROMOSOME_COLUMN], 
+								Integer.parseInt(columns[START_COLUMN]), 
+								Integer.parseInt(columns[END_COLUMN]), 
+								Double.parseDouble(columns[VALUE_COLUMN]));				
+					}
 					data.add(range);
 				}
 			}
 			in.close();
 
 			Collections.sort(data);
-			
-			if (NULLIFY_SCORE)
-			{
-				for (ScoredGenomicRange r : data)
-				{
-					r.setScore(Double.MAX_VALUE);
-				}
-			}
 
 			List<String> printData = new ArrayList<String>(data.size());
 			for (ScoredGenomicRange datum : data)
@@ -214,7 +217,7 @@ public class BedToIPLS
 			{
 				in = new BufferedReader(new FileReader(INPUT));
 			}
- 
+
 			String line = null;
 			String[] columns = null;
 
