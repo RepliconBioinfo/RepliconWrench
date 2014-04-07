@@ -2,18 +2,22 @@ package gov.nci.nih.meltzerlab.replicon.utils;
 
 import gov.nci.nih.meltzerlab.model.ScoredGenomicRange;
 import gov.nci.nih.meltzerlab.utils.Constants;
+import gov.nci.nih.meltzerlab.utils.IOUtils;
 import gov.nci.nih.meltzerlab.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -132,7 +136,15 @@ public class BedToIPLS
 		LOG.info("Processing IPLS for chromosome " + chromosome);
 		List<ScoredGenomicRange> data = new ArrayList<ScoredGenomicRange>();
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(INPUT));
+			BufferedReader in;
+			if (IOUtils.isGzipped(INPUT))
+			{
+				in = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(INPUT))));
+			}
+			else
+			{
+				in = new BufferedReader(new FileReader(INPUT));
+			}
 			String line = null;
 			String[] columns = null;
 			ScoredGenomicRange range = null;
@@ -193,7 +205,16 @@ public class BedToIPLS
 		Set<String> chromosomes = new HashSet<String>();
 
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(INPUT));
+			BufferedReader in;
+			if (IOUtils.isGzipped(INPUT))
+			{
+				in = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(INPUT))));
+			}
+			else
+			{
+				in = new BufferedReader(new FileReader(INPUT));
+			}
+ 
 			String line = null;
 			String[] columns = null;
 
