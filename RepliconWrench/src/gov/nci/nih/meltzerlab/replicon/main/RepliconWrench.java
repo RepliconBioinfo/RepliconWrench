@@ -11,7 +11,7 @@ public class RepliconWrench {
 		if (args.length == 0) 
 		{
 			System.out.println("Usage: java -jar Replicon.jar [Desired-Replicon-Tool] [Tool-specific-options]");
-		//	System.out.println("Available tools are: BedToIPLS, CghToTiming, DbChromosomeToIPLS, TimingAgreement");
+			System.out.println("Available tools are: BedToIPLS, CghToTiming, DbChromosomeToIPLS, TimingAgreement");
 		} 
 		else 
 		{
